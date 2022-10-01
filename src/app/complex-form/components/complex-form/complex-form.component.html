@@ -1,0 +1,73 @@
+<mat-card class="main-form" [formGroup]="mainForm">
+    <mat-card-title>Inscription</mat-card-title>
+    <mat-card class="form-card" formGroupName="personalInfo">
+        <mat-card-subtitle>Informations personnelles</mat-card-subtitle>
+        <div class="form-row">
+            <mat-form-field appearance="fill">
+                <mat-label>Prénom</mat-label>
+                <input type="text" matInput formControlName="firstName">
+                <mat-error>Ce champ est requis</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Nom</mat-label>
+                <input type="text" matInput formControlName="lastName">
+                <mat-error>Ce champ est requis</mat-error>
+            </mat-form-field>
+        </div>
+    </mat-card>
+    <mat-card class="form-card">
+        <mat-card-subtitle>Comment préférez-vous être contacté(e) ?</mat-card-subtitle>
+        <mat-radio-group [formControl]="contactPreferenceCtrl">
+            <mat-radio-button value="email">Mail</mat-radio-button>
+            <mat-radio-button value="phone">Téléphone</mat-radio-button>
+        </mat-radio-group>
+    </mat-card>
+    <mat-card class="form-card" [formGroup]="emailForm" *ngIf="showEmailCtrl$ |async">
+        <mat-card-subtitle>Email</mat-card-subtitle>
+        <div class="form-row">
+            <mat-form-field appearance="fill">
+                <mat-label>Adresse mail</mat-label>
+                <input type="text" matInput formControlName="email">
+                <mat-error>{{getFormControlErrorText(emailCtrl)}}</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Confirmer votre adresse mail</mat-label>
+                <input type="text" matInput formControlName="confirm">
+                <mat-error>{{getFormControlErrorText(confirmEmailCtrl)}}</mat-error>
+            </mat-form-field>
+        </div>
+        <small class="error-text" *ngIf="showEmailError$ | async">Les deux adresses ne correspondent pas</small>
+    </mat-card>
+    <mat-card class="form-card" *ngIf="showPhoneCtrl$ |async">
+        <mat-card-subtitle>Téléphone</mat-card-subtitle>
+        <mat-form-field appearance="fill">
+            <mat-label>Numéro de téléphone</mat-label>
+            <input type="text" matInput [formControl]="phoneCtrl">
+            <mat-error>{{ getFormControlErrorText(phoneCtrl) }}</mat-error>
+        </mat-form-field>
+    </mat-card>
+    <mat-card class="form-card" [formGroup]="loginInfoForm">
+        <mat-card-subtitle>Informations de connexion</mat-card-subtitle>
+        <mat-form-field appearance="fill">
+            <mat-label>Nom d'utilisateur</mat-label>
+            <input type="text" matInput formControlName="username">
+            <mat-error>Ce champ est requis</mat-error>
+        </mat-form-field>
+        <div class="form-row">
+            <mat-form-field appearance="fill">
+                <mat-label>Mot de passe</mat-label>
+                <input type="password" matInput formControlName="password">
+                <mat-error>Ce champ est requis</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Confirmer votre mot de passe</mat-label>
+                <input type="password" matInput formControlName="confirmPassword">
+                <mat-error>Ce champ est requis</mat-error>
+            </mat-form-field>
+        </div>
+        <small class="error-text" *ngIf="showPasswordError$ | async">Les mots de passe ne correspondent pas</small>
+    </mat-card>
+    <mat-card-actions *ngIf="mainForm.valid">
+        <button mat-flat-button color="primary" (click)="onSubmitForm()" [disabled]="loading">ENREGISTRER</button>
+    </mat-card-actions>
+    <mat-spinner *ngIf="loading" color="primary" mode="indeterminate"></mat-spinner>

@@ -1,0 +1,19 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>
+            <span appHighlight color="pink">{{ post.title | titlecase }}</span>
+        </mat-card-title>
+        <mat-card-subtitle>
+            <span> {{ tempUser | username:'en' }}</span>
+            <br>
+            <span>{{ post.createdDate | date }}</span>
+        </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <img mat-card-image *ngIf="post.imageUrl as imageUrl" [src]="imageUrl" [alt]="post.title">
+        <span class="post-content">{{ post.content | shorten:150}}</span>
+    </mat-card-content>
+    <mat-card-actions>
+        <app-comments [comments]="post.comments" (newComment)="onNewComment($event)"></app-comments>
+    </mat-card-actions>
+</mat-card>
